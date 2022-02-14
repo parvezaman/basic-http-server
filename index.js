@@ -5,7 +5,29 @@ const fs = require('fs');
 const server = http.createServer((req, res) => {
     // console.log(req.url);
     if (req.url === '/') {
-        res.end('<h1>Home</h1>')
+
+        fs.readFile(path.join(__dirname, 'public', 'index.html'), (error, content) => {
+            if (error) throw error;
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.end(content);
+        })
+    }
+    if (req.url === '/about') {
+
+        fs.readFile(path.join(__dirname, 'public', 'about.html'), (error, content) => {
+            if (error) throw error;
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.end(content);
+        })
+    }
+    if (req.url === '/api/users') {
+        const users = [
+            { name: 'aman ullah', age: 30 },
+            { name: 'aman parvez', age: 35 },
+            { name: 'amanullah', age: 39 }
+        ];
+        res.writeHead(200, { "Content-Type": "Application/JSON" });
+        res.end(JSON.stringify(users));
     }
 });
 
